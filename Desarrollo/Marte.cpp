@@ -342,16 +342,6 @@ int FrameIndexLuna = 4;			//Maximo KeyFrame LuNA
 bool playLuna = false;			//Variable para detener o iniciar animacion de Luna		
 int playIndexLuna = 0;				//indice para ir entre frames
 
-//_---------------------------EVE---------------------------------------------------
-int i_curr_steps_EVE = 0;		//ira avanzando en la animacion de eva
-float evX = 0, evY = 0, evZ = 0, evGX = 0, evGY = 0, evGZ = 0; //Variables auxiliares para mover la a ev
-FRAME KeyFrameEv[MAX_FRAMES]; //KEYFRAME DE eve
-int FrameIndexEv = 17;			//Maximo KeyFrame eve
-bool playEv = true;			//Variable para detener o iniciar animacion de eve
-int playIndexEv = 0;				//indice para ir entre frames
-float velocidadEve = 90;
-
-
 //-------------------------FUNCIONES KEYFRAMES  LUNA   -------------------------------------//
 
 //Funcion para regresar a la Luna a su coordenada inicial
@@ -359,7 +349,6 @@ void resetElementsLuna(void){
 	LunaX = 0;
 	LunaY = 0;
 }
-
 
 //Funcion de Interpolacion general para Luna
 void interpolationLUNA(int playIndex) {
@@ -370,8 +359,7 @@ void interpolationLUNA(int playIndex) {
 	printf("YPLUS=(%f)-(%f)\n", KeyFrameLuna[playIndex + 1].Y - KeyFrameLuna[playIndex].Y);
 }
 
-
-//FUNCION QUE DEFINE LA ANiMACION DE LA LUNA 
+//FUNCION QUE DEFINE LA ANIMACION DE LA LUNA 
 void animaLuna(void)
 {
 	//Movimiento del objeto
@@ -473,75 +461,6 @@ void animaSol(void)
 
 
 
-//--------------------FUNCIONESS KEYFRAMES EVE---------------------------------------------------//
-
-//Funcion para regresar al EVE a su coordenada inicial
-void resetElementsEV(void) {
-	evX = 0;
-	evY = 0;
-	evZ = 0;
-	evGX = 0;
-	evGY = 0;
-	evGZ = 0;
-}
-
-//Funcion de Interpolacion general para EVE
-void interpolationEV(int playIndex) {
-	KeyFrameEv[playIndex].XPlus = (KeyFrameEv[playIndex + 1].X - KeyFrameEv[playIndex].X) / i_max_steps;
-	KeyFrameEv[playIndex].YPlus = (KeyFrameEv[playIndex + 1].Y - KeyFrameEv[playIndex].Y) / i_max_steps;
-	KeyFrameEv[playIndex].ZPlus = (KeyFrameEv[playIndex + 1].Z - KeyFrameEv[playIndex].Z) / i_max_steps;
-	KeyFrameEv[playIndex].GXPlus = (KeyFrameEv[playIndex + 1].GX - KeyFrameEv[playIndex].GX) / i_max_steps;
-	KeyFrameEv[playIndex].GYPlus = (KeyFrameEv[playIndex + 1].GY - KeyFrameEv[playIndex].GY) / i_max_steps;
-	KeyFrameEv[playIndex].GZPlus = (KeyFrameEv[playIndex + 1].GZ - KeyFrameEv[playIndex].GZ) / i_max_steps;
-}
-
-
-//FUNCION QUE DEFINE LA ANiMACION DEl EVE
-void animaEV(void)
-{
-	//Movimiento del objeto
-	if (playEv)
-	{
-		//primer interpolacion
-		if (playIndexEv == 0 and i_curr_steps_EVE == 0)
-			interpolationEV(playIndexEv);
-
-		if (i_curr_steps >= i_max_steps) //fin de un frame
-		{
-			//le sumo uno al indice
-			playIndexEv++;
-			if (playIndexEv > FrameIndexEv - 1)//fin de la animacion 
-			{
-				playEv = false;
-				playIndexEv = 0;
-				resetElementsEV();
-				i_curr_steps_EVE = 0;
-			}
-			else //Siguiente frame
-			{
-				i_curr_steps_EVE = 0; //Reset 
-				//Interpolation
-				interpolationEV(playIndexEv);
-
-			}
-		}
-		else
-		{
-			//Animacion
-			evX += KeyFrameEv[playIndexEv].XPlus;
-			evY += KeyFrameEv[playIndexEv].YPlus;
-			evZ += KeyFrameEv[playIndexEv].ZPlus;
-			evGX += KeyFrameEv[playIndexEv].GXPlus;
-			evGY += KeyFrameEv[playIndexEv].GYPlus;
-			evGZ += KeyFrameEv[playIndexEv].GZPlus;
-			i_curr_steps_EVE += i_curr_steps_EVE + velocidadEve;
-		}
-
-	}
-}
-
-
-
 
 //------------------------INICIA EL MAIN-----------------------------------
 int main() {
@@ -551,8 +470,7 @@ int main() {
 	CreateObjects();
 	CrearCubo();
 	CreateShaders();
-	//printf("posXrobot: %f\n", posXrobot);
-
+	
 	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, 0.0f, 1.0f, 0.5f);
 
 
@@ -1135,141 +1053,6 @@ int main() {
 	KeyFrameSol[4].Y = 5.0f;
 
 
-	// KEY FRAMES EV
-
-	KeyFrameEv[0].X = 0.0f;
-	KeyFrameEv[0].Y = 0.0f;
-	KeyFrameEv[0].Z = 0.0f;
-	KeyFrameEv[0].GX = 0.0f;
-	KeyFrameEv[0].GY = 0.0f;
-	KeyFrameEv[0].GZ = 0.0f;
-
-	KeyFrameEv[1].X = -2.0f;
-	KeyFrameEv[1].Y = 0.0f;
-	KeyFrameEv[1].Z = 0.0f;
-	KeyFrameEv[1].GX = 90.0f;
-	KeyFrameEv[1].GY = 0.0f;
-	KeyFrameEv[1].GZ = 0.0f;
-
-	KeyFrameEv[2].X = -5.0f;
-	KeyFrameEv[2].Y = 0.0f;
-	KeyFrameEv[2].Z = -8.0f;
-	KeyFrameEv[2].GX = 90.0f;
-	KeyFrameEv[2].GY = 0.0f;
-	KeyFrameEv[2].GZ = 45.0f;
-
-	KeyFrameEv[3].X = -10.0f;
-	KeyFrameEv[3].Y = 0.0f;
-	KeyFrameEv[3].Z = -25.0f;
-	KeyFrameEv[3].GX = 90.0f;
-	KeyFrameEv[3].GY = 0.0f;
-	KeyFrameEv[3].GZ = 90.0f;
-
-	KeyFrameEv[4].X = -5.0f;
-	KeyFrameEv[4].Y = 1.0f;
-	KeyFrameEv[4].Z = -34.0f;
-	KeyFrameEv[4].GX = 90.0f;
-	KeyFrameEv[4].GY = 0.0f;
-	KeyFrameEv[4].GZ = 135.0f;
-
-	KeyFrameEv[5].X = 0.0f;
-	KeyFrameEv[5].Y = 2.0f;
-	KeyFrameEv[5].Z = -40.0f;
-	KeyFrameEv[5].GX = 90.0f;
-	KeyFrameEv[5].GY = 0.0f;
-	KeyFrameEv[5].GZ = 180.0f;
-
-	KeyFrameEv[6].X = 5.0f;
-	KeyFrameEv[6].Y = 3.0f;
-	KeyFrameEv[6].Z = -34.0f;
-	KeyFrameEv[6].GX = 90.0f;
-	KeyFrameEv[6].GY = 0.0f;
-	KeyFrameEv[6].GZ = 225.0f;
-
-	KeyFrameEv[7].X = 10.0f;
-	KeyFrameEv[7].Y = 4.0f;
-	KeyFrameEv[7].Z = -25.0f;
-	KeyFrameEv[7].GX = 90.0f;
-	KeyFrameEv[7].GY = 0.0f;
-	KeyFrameEv[7].GZ = 270.0f;
-
-	KeyFrameEv[8].X = 5.0f;
-	KeyFrameEv[8].Y = 5.0f;
-	KeyFrameEv[8].Z = -16.0f;
-	KeyFrameEv[8].GX = 90.0f;
-	KeyFrameEv[8].GY = 0.0f;
-	KeyFrameEv[8].GZ = 315.0f;
-
-	KeyFrameEv[8].X = 0.0f;
-	KeyFrameEv[8].Y = 6.0f;
-	KeyFrameEv[8].Z = -10.0f;
-	KeyFrameEv[8].GX = 90.0f;
-	KeyFrameEv[8].GY = 0.0f;
-	KeyFrameEv[8].GZ = 360.0f;
-
-	KeyFrameEv[9].X = -5.0f;
-	KeyFrameEv[9].Y = 7.0f;
-	KeyFrameEv[9].Z = -16.4f;
-	KeyFrameEv[9].GX = 90.0f;
-	KeyFrameEv[9].GY = 0.0f;
-	KeyFrameEv[9].GZ = 405.0f;
-
-	KeyFrameEv[10].X = -10.0f;
-	KeyFrameEv[10].Y = 8.0f;
-	KeyFrameEv[10].Z = -25.0f;
-	KeyFrameEv[10].GX = 90.0f;
-	KeyFrameEv[10].GY = 0.0f;
-	KeyFrameEv[10].GZ = 450.0f;
-
-	KeyFrameEv[11].X = -5.0f;
-	KeyFrameEv[11].Y = 9.0f;
-	KeyFrameEv[11].Z = -34.0f;
-	KeyFrameEv[11].GX = 90.0f;
-	KeyFrameEv[11].GY = 0.0f;
-	KeyFrameEv[11].GZ = 495.0f;
-
-	KeyFrameEv[12].X = 0.0f;
-	KeyFrameEv[12].Y = 10.0f;
-	KeyFrameEv[12].Z = -40.0f;
-	KeyFrameEv[12].GX = 90.0f;
-	KeyFrameEv[12].GY = 0.0f;
-	KeyFrameEv[12].GZ = 540.0f;
-
-	KeyFrameEv[13].X = 5.0f;
-	KeyFrameEv[13].Y = 11.0f;
-	KeyFrameEv[13].Z = -34.0f;
-	KeyFrameEv[13].GX = 90.0f;
-	KeyFrameEv[13].GY = 0.0f;
-	KeyFrameEv[13].GZ = 585.0f;
-
-	KeyFrameEv[14].X = 10.0f;
-	KeyFrameEv[14].Y = 12.0f;
-	KeyFrameEv[14].Z = -25.f;
-	KeyFrameEv[14].GX = 90.0f;
-	KeyFrameEv[14].GY = 0.0f;
-	KeyFrameEv[14].GZ = 630.0f;
-
-	KeyFrameEv[15].X = 5.0f;
-	KeyFrameEv[15].Y = 13.0f;
-	KeyFrameEv[15].Z = -5.0f;
-	KeyFrameEv[15].GX = 90.0f;
-	KeyFrameEv[15].GY = 0.0f;
-	KeyFrameEv[15].GZ = 675.0f;
-
-	KeyFrameEv[16].X = 0.0f;
-	KeyFrameEv[16].Y = 14.0f;
-	KeyFrameEv[16].Z = 0.0f;
-	KeyFrameEv[16].GX = 90.0f;
-	KeyFrameEv[16].GY = 0.0f;
-	KeyFrameEv[16].GZ = 720.0f;
-
-	KeyFrameEv[17].X = 0.0f;
-	KeyFrameEv[17].Y = 0.0f;
-	KeyFrameEv[17].Z = 0.0f;
-	KeyFrameEv[17].GX = 0.0f;
-	KeyFrameEv[17].GY = 0.0f;
-	KeyFrameEv[17].GZ = 720.0f;
-
 	// Interceptor Jedi
 	GLfloat offset = 0.0f;
 	GLfloat angulo = 0.0f;
@@ -1402,7 +1185,6 @@ int main() {
 
 		//información al shader de fuentes de iluminación
 		shaderList[0].SetDirectionalLight(&mainLight);
-		//shaderList[0].SetPointLights(pointLights, pointLightCount);
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
 
 		glm::mat4 model(1.0);
@@ -1418,8 +1200,7 @@ int main() {
 		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[2]->RenderMesh();
 
-		//printf("Wall-E Brazo: %f\n", mainWindow.getMovAvatarZ());
-
+		
 		//Show de luces RGB mediante teclado (Tecla C enciende y apaga)
 		if (mainWindow.getCambioColor()) {
 			spotLights[1].SetColor(glm::vec3(1.0f, 1.0f, 1.0f)); //Cambiar el color de la luz
@@ -1437,7 +1218,6 @@ int main() {
 
 		}
 		else { // No hay cambio de color
-		 //mainWindow.getCambioColor();
 			spotLights[1].SetColor(glm::vec3(0.0f, 0.0f, 0.0f)); //Cambiar el color de la luz
 
 			//spotLights[2].SetPos(glm::vec3(-60.0f, 0.0f, 40.0f)); 
@@ -1453,10 +1233,7 @@ int main() {
 
 		}
 
-		//spotLights[1].SetPos(glm::vec3(-1.0 + posXrobot, 8.5f, 0.1 + posZrobot));
-
-		//spotLights[3].SetPos(glm::vec3(-60.0f, 0.0f, 40.0));
-
+		
 		// ------------------------------------------ CARGA DE MODELOS ------------------------------------------
 
 		//------------------SOL--------------
@@ -1482,36 +1259,21 @@ int main() {
 
 
 		//Wall-E
-		//glm::mat4 modelaux(1.0);
 		model = glm::mat4(1.0);
 		if (posXrobot <= 100.0f && posXrobot > -65.0f) {
-			//model = glm::translate(model, glm::vec3(0.0f + mainWindow.getMovAvatarX(), -1.0f, 0.0f + mainWindow.getMovAvatarZ()));
 			modelaux = model = glm::translate(model, glm::vec3(0.0f + posXrobot, -1.0f, 0.0f + posZrobot));
-			//modelaux = model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-			//model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-			//modelaux = model;
 		}
 		else if (posXrobot <= -65.0f && posXrobot > -66.0f) {
-			if (posZrobot > -20.0f && adelanteZ == 1 /*&& arriba == 0*/) {
+			if (posZrobot > -20.0f && adelanteZ == 1) {
 				modelaux = model = glm::translate(model, glm::vec3(0.0f + posXrobot, -1.0f, 0.0f + posZrobot));
 				model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); //Rotación de sus engranes
-				
 			}
 			if (posZrobot < 20.0f && adelanteZ == 0 /*&& abajo == 0*/) {
 				modelaux = model = glm::translate(model, glm::vec3(0.0f + posXrobot, -1.0f, 0.0f + posZrobot));
 				model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); //Rotación de sus engranes
 			}
-			//if (posZrobot <= 21.0f && posZrobot > 0.0f && adelanteZ == 1) {
-			   //modelaux = model = glm::translate(model, glm::vec3(0.0f + posXrobot, -1.0f, 0.0f + posZrobot));
-			   //model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); //Rotación de sus engranes
-			//}
-			
 		}
-		//else if (posXrobot >= -66.0f && posXrobot < 10.0f /*&& arriba == 1 && abajo == 1*/ && posZrobot <= 0.0f /*&& adelanteX == 0*/) {
-		//	modelaux = model = glm::translate(model, glm::vec3(0.0f + posXrobot, -1.0f, 0.0f + posZrobot));
-		//	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); //Rotación de sus engranes
-		//}
-
+		
 		modelaux = model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Avatar_M.RenderModel(); //Cuerpo de Wall-E		
@@ -1559,16 +1321,6 @@ int main() {
 					//adelanteX = 0;
 				}
 
-				//if (posZrobot <= 21.0f && posZrobot > 0.0f && adelanteZ == 1) {
-				//	adelanteZ = 1;
-				//	posZrobot -= 0.02*deltaTime;
-				//	//posXrobot += 0.009*deltaTime;
-				//	spotLights[1].SetPos(glm::vec3(-1.0 + posXrobot, 8.5f, 0.1 + posZrobot));
-				//	spotLights[1].SetFlash(glm::vec3(-1.0 + posXrobot, 8.5f, 0.1 + posZrobot), glm::vec3(0.0f, 0.0f, -1.0f));
-				//	printf("Wall-E X: %f\n", posXrobot);
-				//	printf("Wall-E Z: %f\n", posZrobot);
-				//}
-
 				if (!adelanteZ && rotaHeli < 90) {
 					posZrobot += /*cos(200*offset*toRadians)*/ offsetPos * deltaTime;
 					rotaHeli += offsetHeli * deltaTime;
@@ -1584,22 +1336,9 @@ int main() {
 					rotaHeli = 0;
 				}
 			}
-			//else if (posXrobot >= -66.0f && posXrobot < 10.0f /*&& arriba == 1 && abajo == 1*/ && posZrobot <= 0.0f /*&& adelanteX == 0*/) {
-			//	posXrobot += 0.01*deltaTime;
-			//	posZrobot == 0.0f;
-			//	printf("Wall-E X: %f\n", posXrobot);
-			//	printf("Wall-E Z: %f\n", posZrobot);
-			//	spotLights[1].SetPos(glm::vec3(1.0 + posXrobot, 8.5f, 0.1 + posZrobot));
-			//	spotLights[1].SetFlash(glm::vec3(1.0 + posXrobot, 8.5f, 0.1 + posZrobot), glm::vec3(1.0f, 0.0f, 0.0f));
-			//}
 		}
 		else if (mainWindow.reseteaAnimacionWallE == true) {
 			reproduceW = true;
-			//COMENTÉ ESTAS LINEAS PORQUE SI NO SE INICIA LA ANIMACIÓN DE WALL-E GENERA ERROR
-			//if (reproduceW2) {
-			//	sonido->play2D("media/wall-e.mp3", false); //Efecto de sonido
-			//}
-			//reproduceW2 = false;
 			posXrobot = 0.0f;
 			posZrobot = 0.0f;
 			spotLights[1].SetPos(glm::vec3(-1.0 + posXrobot, 8.5f, 0.1 + posZrobot));
@@ -1609,14 +1348,12 @@ int main() {
 		//Brazo derecho Wall-E
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(0.0f + mainWindow.getMovAvatarX(), 0.0f + mainWindow.getMovAvatarZ(), 4.8f));
-		//model = glm::rotate(model, 10 * (mainWindow.getMovAvatarX() /*+ mainWindow.getMovAvatarZ()*/) * toRadians, glm::vec3(0.0f, 0.0f, 1.0f)); //Rotación de sus engranes
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		BrazoD_M.RenderModel();
 
 		//Brazo izquierdo Wall-E
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(0.0f + mainWindow.getMovAvatarX(), 0.0f + mainWindow.getMovAvatarZ(), -12.5f));
-		//model = glm::rotate(model, 10 * (mainWindow.getMovAvatarX() /*+ mainWindow.getMovAvatarZ()*/) * toRadians, glm::vec3(0.0f, 0.0f, 1.0f)); //Rotación de sus engranes
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		BrazoI_M.RenderModel();
 
@@ -1634,16 +1371,11 @@ int main() {
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		PieI_M.RenderModel();
 
-		//-----------------------------Eve-------------------------
-		animaEV();
+		//Eva
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f + evX, 5.0f + evY, 25.0f + evZ));
+		model = glm::translate(model, glm::vec3(0.0f, 5.0f, 25.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, evGX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, evGY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, evGZ * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Eva_M.RenderModel();
 
