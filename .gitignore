@@ -1,5 +1,5 @@
-#PDFs de entregables
-*.pdf
+#Archivos de WORD
+*.docx
 
 #Librería de audio
 irrKlang-1.6.0/
