@@ -354,9 +354,6 @@ void resetElementsLuna(void){
 void interpolationLUNA(int playIndex) {
 	KeyFrameLuna[playIndex].XPlus = (KeyFrameLuna[playIndex + 1].X - KeyFrameLuna[playIndex].X) / i_max_steps;
 	KeyFrameLuna[playIndex].YPlus = (KeyFrameLuna[playIndex + 1].Y - KeyFrameLuna[playIndex].Y) / i_max_steps;
-	printf("--------------------LUNA  FRAME %i--------------------------------\n\n", playIndex);
-	printf("XPLUS=(%f)-(%f)\n", KeyFrameLuna[playIndex + 1].X , KeyFrameLuna[playIndex].X);
-	printf("YPLUS=(%f)-(%f)\n", KeyFrameLuna[playIndex + 1].Y - KeyFrameLuna[playIndex].Y);
 }
 
 //FUNCION QUE DEFINE LA ANIMACION DE LA LUNA 
@@ -412,9 +409,6 @@ void resetElementsSol(void) {
 void interpolationSOL(int playIndex) {
 	KeyFrameSol[playIndex].XPlus = (KeyFrameSol[playIndex + 1].X - KeyFrameSol[playIndex].X) / i_max_steps;
 	KeyFrameSol[playIndex].YPlus = (KeyFrameSol[playIndex + 1].Y - KeyFrameSol[playIndex].Y) / i_max_steps;
-	printf("--------------------SOL FRAME %i--------------------------------\n\n", playIndex);
-	printf("XPLUS=(%f)-(%f)\n", KeyFrameSol[playIndex + 1].X , KeyFrameSol[playIndex].X);
-	printf("YPLUS=(%f)-(%f)\n", KeyFrameSol[playIndex + 1].Y, KeyFrameSol[playIndex].Y);
 }
 
 
@@ -1286,33 +1280,26 @@ int main() {
 			reproduceW = false;
 			if (posXrobot <= 100.0f && posXrobot > -65.0f && adelanteX == 1) {
 				posXrobot -= 0.01*deltaTime;
-				printf("Wall-E X: %f\n", posXrobot);
-				printf("Wall-E Z: %f\n", posZrobot);
 				spotLights[1].SetPos(glm::vec3(-1.0 + posXrobot, 8.5f, 0.1 + posZrobot));
 			}
 			else if (posXrobot <= -65.0f && posXrobot > -66.0f && adelanteX == 1) {
-				if (posZrobot > -20.0f && adelanteZ == 1/* && arriba == 0*/) {
+				if (posZrobot > -20.0f && adelanteZ == 1) {
 					giro = 1;
 					posZrobot -= 0.01*deltaTime;
 					//posXrobot += 0.009*deltaTime;
 					spotLights[1].SetPos(glm::vec3(-1.0 + posXrobot, 8.5f, 0.1 + posZrobot));
 					spotLights[1].SetFlash(glm::vec3(-1.0 + posXrobot, 8.5f, 0.1 + posZrobot), glm::vec3(0.0f, 0.0f, -1.0f));
-					printf("Wall-E X: %f\n", posXrobot);
-					printf("Wall-E Z: %f\n", posZrobot);
 				}
 				else {
 					adelanteZ = 0;
 					arriba = 1;
 				}
 
-				if (posZrobot < 20.0f && adelanteZ == 0 /*&& abajo == 0*/) {
+				if (posZrobot < 20.0f && adelanteZ == 0) {
 					giro = 2;
 					posZrobot += 0.01*deltaTime;
-					//posXrobot += 0.009*deltaTime;
 					spotLights[1].SetPos(glm::vec3(-1.0 + posXrobot, 8.5f, 0.1 + posZrobot));
 					spotLights[1].SetFlash(glm::vec3(-1.0 + posXrobot, 8.5f, 0.1 + posZrobot), glm::vec3(0.0f, 0.0f, 1.0f));
-					printf("Wall-E X: %f\n", posXrobot);
-					printf("Wall-E Z: %f\n", posZrobot);
 				}
 				else
 				{
@@ -1322,14 +1309,12 @@ int main() {
 				}
 
 				if (!adelanteZ && rotaHeli < 90) {
-					posZrobot += /*cos(200*offset*toRadians)*/ offsetPos * deltaTime;
+					posZrobot += offsetPos * deltaTime;
 					rotaHeli += offsetHeli * deltaTime;
-					printf("grados: %f\n", rotaHeli);
 				}
 				if (adelanteZ && rotaHeli > 90 && rotaHeli < 180) {
 					posZrobot -= offsetPos * deltaTime;
 					rotaHeli += offsetHeli * deltaTime;
-					printf("grados: %f\n", rotaHeli);
 				}
 
 				if (rotaHeli > 180) {
@@ -1500,20 +1485,16 @@ int main() {
 			}
 			reproduceS = false;
 			if (posYspeeder > 0.0f && adelanteY == 0) {
-				//posYspeeder -= 0.05*deltaTime;
-				posYspeeder -= 0.1 * sin(0.05)/* + cos(0.05)*/;
+				posYspeeder -= 0.1 * sin(0.05);
 				posZspeeder -= 0.1 * cos(0.05);
-				printf("Speeder Bike Y: %f\n", posYspeeder);
 			}
 			else {
 				adelanteY = 1;
 			}
 
 			if (posYspeeder < 20.0f && adelanteY == 1) {
-				//posYspeeder += 0.05*deltaTime;
-				posYspeeder += 0.1 * sin(0.05)/* + cos(0.05)*/;
+				posYspeeder += 0.1 * sin(0.05);
 				posZspeeder += 0.1 * cos(0.05);
-				printf("Speeder Bike Y: %f\n", posYspeeder);
 			}
 			else
 			{
