@@ -1028,9 +1028,9 @@ int main() {
 
 	KeyFrameLuna[4].X = 600.0f;
 	KeyFrameLuna[4].Y = 5.0f;
+	GLfloat rotaL = 0.0f;
 
-	// KEY FRAMES SOL
-	
+	// KEY FRAMES SOL	
 	KeyFrameSol[0].X = 0.0f;
 	KeyFrameSol[0].Y = 0.0f;
 
@@ -1046,6 +1046,7 @@ int main() {
 	KeyFrameSol[4].X = 600.0f;
 	KeyFrameSol[4].Y = 5.0f;
 
+	GLfloat rotaSol = 0.0f;
 
 	// Interceptor Jedi
 	GLfloat offset = 0.0f;
@@ -1183,7 +1184,7 @@ int main() {
 
 		glm::mat4 model(1.0);
 		glm::mat4 modelaux(1.0);
-		glm::mat4 modelaux2(1.0);
+		glm::mat4 modelauxL(1.0);
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
@@ -1233,24 +1234,33 @@ int main() {
 		//------------------SOL--------------
 		//_------------------ANIMACION KEYFRAMES-------------
 		animaSol();
-		//render
+		rotaSol += 0.01 * deltaTime; //Rotación Sol
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-300.0f + SolX, -30.0f + SolY, 20.0f));
 		model = glm::scale(model, glm::vec3(30.0f, 30.0f, 30.0f));
+		model = glm::rotate(model, 20 * rotaSol * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Sol_M.RenderModel();
 
-
-		//--------------------------LUNA-------------------------------
+		//--------------------------LUNAS-------------------------------
 		//_------------------ANIMACION KEYFRAMES-------------
 		animaLuna();
-		//render
+		rotaL += 0.01 * deltaTime; //Rotación Lunas
+		//Fobos
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-300.0f + LunaX, -30.0f + LunaY, 20.0f));
 		model = glm::scale(model, glm::vec3(15.0f, 15.0f, 15.0f));
+		model = glm::rotate(model, 20 * rotaL * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		modelauxL = model;
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Luna_M.RenderModel();
 
+		//Deimos
+		model = modelauxL;
+		model = glm::translate(model, glm::vec3(-1.0f, -2.0f, -1.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Luna_M.RenderModel();		
 
 		//Wall-E
 		model = glm::mat4(1.0);
@@ -1467,13 +1477,12 @@ int main() {
 
 		//Speeder Bike
 		model = glm::mat4(1.0);
-		if (posYspeeder > 0.0f && adelanteY == 0/*posYspeeder > -10.0f && adelanteY == 1*/) {
+		if (posYspeeder > 0.0f && adelanteY == 0) {
 			model = glm::translate(model, glm::vec3(-40.0f, -5.0f + posYspeeder, -60.0f + posZspeeder));
 			model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		}
-		else if (posYspeeder < 20.0f && adelanteY == 1 || posYspeeder == 0.0f/*posYspeeder < 20.0f && adelanteY == 0*/) {
+		else if (posYspeeder < 20.0f && adelanteY == 1 || posYspeeder == 0.0f) {
 			model = glm::translate(model, glm::vec3(-40.0f, -5.0f + posYspeeder, -60.0f + posZspeeder));
-			//model = glm::rotate(model, 0 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		}
 		model = glm::scale(model, glm::vec3(15.0f, 15.0f, 15.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1514,7 +1523,7 @@ int main() {
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		ClonO_M.RenderModel();
 
-		// Stormtrooper
+		// Animación Stormtroopers
 		if (avanzaS) {
 			if (iniciaR) {
 				if (rotacionDerecha > -30.0f) {
@@ -1900,27 +1909,8 @@ int main() {
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		FinnJake_M.RenderModel();
 
-		////////////////////////////////////////////////////////////////////////////
-		//Lado derecho visto de frente de Wall-E
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(245.0f, 0.0f, 55.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura1_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(255.0f, 0.0f, 75.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura2_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(265.0f, 0.0f, 40.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura3_M.RenderModel();
-		
+		// CUBOS DE BASURA
+		//Lado derecho visto de frente de Wall-E		
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(215.0f, 0.0f, 55.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
@@ -2209,45 +2199,7 @@ int main() {
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Basura3_M.RenderModel();
 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-265.0f, 0.0f, 55.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura1_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-255.0f, 0.0f, 75.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura2_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-245.0f, 0.0f, 40.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura3_M.RenderModel();
-
-
 		//Lado Izquierdo visto de frente de Wall-E
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(245.0f, 0.0f, -55.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura1_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(255.0f, 0.0f, -75.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura2_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(265.0f, 0.0f, -40.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura3_M.RenderModel();
-
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(215.0f, 0.0f, -55.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
@@ -2536,24 +2488,7 @@ int main() {
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Basura3_M.RenderModel();
 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-265.0f, 0.0f, -55.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura1_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-255.0f, 0.0f, -75.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura2_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-245.0f, 0.0f, -40.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura3_M.RenderModel();
-		
+		// Estrellas		
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-100.0f, 200.0f, 100.0f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
@@ -2580,18 +2515,6 @@ int main() {
 		model = glm::rotate(model, -270 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Estrellas_M.RenderModel();
-
-		/*model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(200.0f, 100.0f, 20.0f));
-		model = glm::scale(model, glm::vec3(15.0f, 15.0f, 15.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Luna_M.RenderModel();*/
-
-		/*model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-200.0f, 100.0f, 20.0f));
-		model = glm::scale(model, glm::vec3(30.0f, 30.0f, 30.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Sol_M.RenderModel();*/
 
 		glUseProgram(0);
 
