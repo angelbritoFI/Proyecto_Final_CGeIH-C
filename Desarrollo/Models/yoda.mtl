@@ -1,0 +1,16 @@
+# Blender MTL File: 'yoda.blend'
+# Material Count: 1
+
+newmtl defaultMat
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\Yoda2_defaultMat_nmap.tga.png
+map_Kd C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\Yoda2_defaultMat_color.tga.png
+map_Ks C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\Yoda2_defaultMat_ao.tga.png
+refl C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\Yoda2_defaultMat_metallness.tga.png

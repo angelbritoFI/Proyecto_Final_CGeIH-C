@@ -65,6 +65,7 @@ Model PieI_M;
 Model Eva_M;
 Model FinnJake_M;
 Model ClonO_M;
+Model Yoda_M;
 
 //Stormtroppers
 Model CuerpoC_M;
@@ -512,6 +513,9 @@ int main() {
 
 	SpeederBike_M = Model();
 	SpeederBike_M.LoadModel("Models/SpeederBike.obj");
+
+	Yoda_M = Model();
+	Yoda_M.LoadModel("Models/yoda.obj");
 
 	FinnJake_M = Model();
 	FinnJake_M.LoadModel("Models/Finn-Jake.obj");
@@ -1194,8 +1198,7 @@ int main() {
 		//agregar material al plano de piso
 		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[2]->RenderMesh();
-
-		
+				
 		//Show de luces RGB mediante teclado (Tecla C enciende y apaga)
 		if (mainWindow.getCambioColor()) {
 			spotLights[1].SetColor(glm::vec3(1.0f, 1.0f, 1.0f)); //Cambiar el color de la luz
@@ -1367,12 +1370,19 @@ int main() {
 		PieI_M.RenderModel();
 
 		//Eva
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 5.0f, 25.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.0f, 5.0f, 30.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Eva_M.RenderModel();
+
+		//Yoda
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(50.0f, 5.0f, -50.0f));
+		model = glm::scale(model, glm::vec3(400.0f, 400.0f, 400.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Yoda_M.RenderModel();
 
 		offset += 0.1f * deltaTime; //ángulo de inclinación
 		posZnave = cos(40 * offset * toRadians); //arriba y abajo
@@ -1474,7 +1484,7 @@ int main() {
 		model = glm::rotate(model, 5 * rotaDS * toRadians, glm::vec3(0.0f, desaparece, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		DeathStar_M.RenderModel();
-
+		
 		//Speeder Bike
 		model = glm::mat4(1.0);
 		if (posYspeeder > 0.0f && adelanteY == 0) {
