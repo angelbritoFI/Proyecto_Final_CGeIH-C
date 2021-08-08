@@ -63,6 +63,7 @@ Model PieD_M;
 Model PieI_M;
 
 Model Eva_M;
+Model Cuca_M;
 Model FinnJake_M;
 Model ClonO_M;
 Model Yoda_M;
@@ -489,6 +490,9 @@ int main() {
 
 	Eva_M = Model();
 	Eva_M.LoadModel("Models/EVA.obj");
+
+	Cuca_M = Model();
+	Cuca_M.LoadModel("Models/cucaracha.obj");
 
 	ClonO_M = Model();
 	ClonO_M.LoadModel("Models/Stormtrooper.obj");
@@ -1095,6 +1099,10 @@ int main() {
 	bool subeBrazos = false;
 	bool reproduceDV = true;
 
+	//Eva
+	GLfloat anguloE = 0.0f;
+	float posYeva = 0.0f;
+
 	//Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose()) {
 
@@ -1361,24 +1369,35 @@ int main() {
 		//Pie derecho Wall-E
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(3.6f, 2.4f, -6.5f));
-		//model = glm::rotate(model, 10 * (mainWindow.getMovAvatarX() + mainWindow.getMovAvatarZ()) * toRadians, glm::vec3(0.0f, 0.0f, 1.0f)); //Rotación de sus engranes
+		model = glm::rotate(model, -10 * (posXrobot + posZrobot) * toRadians, glm::vec3(0.0f, 0.0f, 1.0f)); //Rotación de sus engranes
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		PieD_M.RenderModel();
 
 		//Pie izquierdo Wall-E
 		model = modelaux;
 		model = glm::translate(model, glm::vec3(3.6f, 2.4f, 6.5f));
-		//model = glm::rotate(model, 10 * (mainWindow.getMovAvatarX() + mainWindow.getMovAvatarZ()) * toRadians, glm::vec3(0.0f, 0.0f, 1.0f)); //Rotación de sus engranes
+		model = glm::rotate(model, -10 * (posXrobot + posZrobot) * toRadians, glm::vec3(0.0f, 0.0f, 1.0f)); //Rotación de sus engranes
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		PieI_M.RenderModel();
 
+		anguloE += 0.01f * deltaTime; //ángulo de inclinación
+		posYeva = sin(30 * anguloE * toRadians); //arriba y abajo
+
 		//Eva
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f, 5.0f, 30.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 8.0f + posYeva, 30.0f));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Eva_M.RenderModel();
+
+		//Cucaracha
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(5.0f, -1.0f, 15.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Cuca_M.RenderModel();
 
 		//Yoda
 		model = glm::mat4(1.0);
