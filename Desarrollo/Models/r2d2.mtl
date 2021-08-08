@@ -1,0 +1,17 @@
+# Blender MTL File: 'r2d2.blend'
+# Material Count: 1
+
+newmtl Default_OBJ
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\R2D2_lowpoly_normal.jpg
+map_Kd C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\R2D2_lowpoly_albedo.jpg
+map_Ke C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\R2D2_lowpoly_emission.jpg
+map_Ns C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\R2D2_lowpoly_roughness_2.jpg
+refl C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\R2D2_lowpoly_metalness.jpg

@@ -66,6 +66,7 @@ Model Eva_M;
 Model FinnJake_M;
 Model ClonO_M;
 Model Yoda_M;
+Model R2D2_M;
 
 //Stormtroppers
 Model CuerpoC_M;
@@ -468,7 +469,6 @@ int main() {
 	
 	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, 0.0f, 1.0f, 0.5f);
 
-
 	//Piso
 	plainTexture = Texture("Textures/plain.png");
 	plainTexture.LoadTextureA();
@@ -516,6 +516,9 @@ int main() {
 
 	Yoda_M = Model();
 	Yoda_M.LoadModel("Models/yoda.obj");
+
+	R2D2_M = Model();
+	R2D2_M.LoadModel("Models/r2d2.obj");
 
 	FinnJake_M = Model();
 	FinnJake_M.LoadModel("Models/Finn-Jake.obj");
@@ -1384,6 +1387,15 @@ int main() {
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Yoda_M.RenderModel();
 
+		//R2-D2
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(70.0f, -1.0f, 40.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		R2D2_M.RenderModel();
+
+		//Animación Interceptor Jedi
 		offset += 0.1f * deltaTime; //ángulo de inclinación
 		posZnave = cos(40 * offset * toRadians); //arriba y abajo
 				
