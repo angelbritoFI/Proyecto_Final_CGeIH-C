@@ -1,0 +1,59 @@
+# Blender MTL File: 'droideSW.blend'
+# Material Count: 4
+
+newmtl A20
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\A20_normal.png
+map_Kd C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\A20_color.png
+map_Ns C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\A20_roughness.png
+refl C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\A20_metalness.png
+
+newmtl ARMOR
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\armor_normal.png
+map_Kd C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\armor_color.png
+map_Ns C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\armor_roughness.png
+refl C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\armor_metallic.png
+
+newmtl E11
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\E11_normal.png
+map_Kd C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\E11_color.png
+map_Ns C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\E11_roughness.png
+refl C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\E11_metallic.png
+
+newmtl IG11
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\IG11_normal.png
+map_Kd C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\IG11_color.png
+map_Ke C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\IG11_emission.png
+map_Ns C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\IG11_roughness.png
+refl C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\IG11_metallic.png

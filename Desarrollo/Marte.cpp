@@ -67,6 +67,8 @@ Model Cuca_M;
 Model FinnJake_M;
 Model ClonO_M;
 Model Yoda_M;
+Model Droide1_M;
+Model Droide2_M;
 Model R2D2_M;
 
 //Stormtroppers
@@ -520,6 +522,12 @@ int main() {
 
 	Yoda_M = Model();
 	Yoda_M.LoadModel("Models/yoda.obj");
+
+	Droide1_M = Model();
+	Droide1_M.LoadModel("Models/droide-batalla.fbx");
+
+	Droide2_M = Model();
+	Droide2_M.LoadModel("Models/droideSW.fbx");
 
 	R2D2_M = Model();
 	R2D2_M.LoadModel("Models/r2d2.obj");
@@ -1405,6 +1413,57 @@ int main() {
 		model = glm::scale(model, glm::vec3(400.0f, 400.0f, 400.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Yoda_M.RenderModel();
+
+		//Droide de batalla (atrás)
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(40.0f, 0.0f, -70.0f));
+		model = glm::scale(model, glm::vec3(25.0f, 25.0f, 25.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));		
+		model = glm::rotate(model, 15 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Droide1_M.RenderModel();
+
+		//Droide Eyegree (atrás)
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(60.0f, 0.0f, -70.0f));
+		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::rotate(model, -15 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Droide2_M.RenderModel();
+
+		//Droide de batalla (lado derecho a Yoda)
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(20.0f, 0.0f, -50.0f));
+		model = glm::scale(model, glm::vec3(25.0f, 25.0f, 25.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Droide1_M.RenderModel();
+
+		//Droide Eyegree (lado izquierdo a Yoda)
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(80.0f, 0.0f, -50.0f));
+		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Droide2_M.RenderModel();
+
+		//Droide de batalla (enfrente)
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(30.0f, 0.0f, -25.0f));
+		model = glm::scale(model, glm::vec3(25.0f, 25.0f, 25.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, 150 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Droide1_M.RenderModel();
+
+		//Droide Eyegree (enfrente)
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(70.0f, 0.0f, -25.0f));
+		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::rotate(model, 210 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Droide2_M.RenderModel();
 
 		//R2-D2
 		model = glm::mat4(1.0);

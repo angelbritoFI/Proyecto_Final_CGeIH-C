@@ -1,0 +1,30 @@
+# Blender MTL File: 'droide de batalla.blend'
+# Material Count: 2
+
+newmtl Checker
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.110687 0.110687 0.110687
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\droid_UV1_Checker_Normal.png
+map_Kd C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\droid_UV1_Checker_BaseColor.png
+map_Ns C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\droid_UV1_Checker_Roughness.png
+refl C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\droid_UV1_Checker_Metallic.png
+
+newmtl Material.001
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.248855 0.248855 0.248855
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump -bm 2.000000 C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\rifle_Material_Normal.png
+map_Kd C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\rifle_Material_BaseColor.png
+map_Ns C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\rifle_Material_Roughness.png
+refl C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\rifle_Material_Metallic.png
