@@ -83,6 +83,7 @@ Model InterceptorJedi_M;
 Model SpeederBike_M;
 
 Model Mont_M;
+Model Camino_M;
 Model Basura1_M;
 Model Basura2_M;
 Model Basura3_M;
@@ -538,6 +539,9 @@ int main() {
 
 	Mont_M = Model();
 	Mont_M.LoadModel("Models/montania.fbx");
+
+	Camino_M = Model();
+	Camino_M.LoadModel("Models/camino.fbx");
 
 	Basura1_M = Model();
 	Basura1_M.LoadModel("Models/CuboBasura1.obj");
@@ -1286,20 +1290,28 @@ int main() {
 		model = glm::translate(model, glm::vec3(-1.0f, -2.0f, -1.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Luna_M.RenderModel();		
+		Luna_M.RenderModel();
+
+		//Camino
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(35.0f, -1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(3.2f, 1.0f, 3.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Camino_M.RenderModel();
 
 		//Wall-E
 		model = glm::mat4(1.0);
 		if (posXrobot <= 100.0f && posXrobot > -65.0f) {
-			modelaux = model = glm::translate(model, glm::vec3(0.0f + posXrobot, -1.0f, 0.0f + posZrobot));
+			modelaux = model = glm::translate(model, glm::vec3(0.0f + posXrobot, 0.0f, 0.0f + posZrobot));
 		}
 		else if (posXrobot <= -65.0f && posXrobot > -66.0f) {
 			if (posZrobot > -20.0f && adelanteZ == 1) {
-				modelaux = model = glm::translate(model, glm::vec3(0.0f + posXrobot, -1.0f, 0.0f + posZrobot));
+				modelaux = model = glm::translate(model, glm::vec3(0.0f + posXrobot, 0.0f, 0.0f + posZrobot));
 				model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); //Rotación de sus engranes
 			}
 			if (posZrobot < 20.0f && adelanteZ == 0 /*&& abajo == 0*/) {
-				modelaux = model = glm::translate(model, glm::vec3(0.0f + posXrobot, -1.0f, 0.0f + posZrobot));
+				modelaux = model = glm::translate(model, glm::vec3(0.0f + posXrobot, 0.0f, 0.0f + posZrobot));
 				model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); //Rotación de sus engranes
 			}
 		}
@@ -1322,7 +1334,6 @@ int main() {
 				if (posZrobot > -20.0f && adelanteZ == 1) {
 					giro = 1;
 					posZrobot -= 0.01*deltaTime;
-					//posXrobot += 0.009*deltaTime;
 					spotLights[1].SetPos(glm::vec3(-1.0 + posXrobot, 8.5f, 0.1 + posZrobot));
 					spotLights[1].SetFlash(glm::vec3(-1.0 + posXrobot, 8.5f, 0.1 + posZrobot), glm::vec3(0.0f, 0.0f, -1.0f));
 				}
@@ -1341,7 +1352,6 @@ int main() {
 				{
 					adelanteZ = 1;
 					abajo = 1;
-					//adelanteX = 0;
 				}
 
 				if (!adelanteZ && rotaHeli < 90) {
@@ -2584,28 +2594,24 @@ int main() {
 
 		// Estrellas		
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-100.0f, 200.0f, 100.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		model = glm::translate(model, glm::vec3(-100.0f, 200.0f, 100.0f));		
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Estrellas_M.RenderModel();
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-200.0f, 200.0f, 100.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Estrellas_M.RenderModel();
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-200.0f, 200.0f, 100.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Estrellas_M.RenderModel();
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-200.0f, 200.0f, 100.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		model = glm::rotate(model, -270 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Estrellas_M.RenderModel();
