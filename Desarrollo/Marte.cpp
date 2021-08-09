@@ -82,6 +82,7 @@ Model PiernaCD_M;
 Model InterceptorJedi_M;
 Model SpeederBike_M;
 
+Model Mont_M;
 Model Basura1_M;
 Model Basura2_M;
 Model Basura3_M;
@@ -101,7 +102,7 @@ Material Material_brillante;
 Material Material_opaco;
 
 // 3 tipos de luz
-//luz direccional (sol, ilumana todo el escenario por igual, debe de existir)
+//luz direccional (sol, ilumina todo el escenario por igual, debe de existir)
 DirectionalLight mainLight;
 //para declarar varias luces de tipo pointlight
 PointLight pointLights[MAX_POINT_LIGHTS]; //luz puntual (ilumna el camino en la noche)
@@ -123,7 +124,7 @@ float tiempo_offset = 0.05;
 // Variables para Animación de Wall-E
 float posXrobot = 0.0f, posYrobot = 0.0f, posZrobot = 0.0f, posXspeeder = 0.0f, posYspeeder = 0.0f, posZspeeder = 0.0f;
 
-float offset, rotaHeli = 0.0f, rota = 0.0f;
+float rotaHeli = 0.0f, rota = 0.0f;
 int adelanteX = 1, adelanteY = 0, adelanteZ = 1, arriba = 0, abajo = 0;
 
 //cálculo del promedio de las normales para sombreado de Phong
@@ -534,6 +535,9 @@ int main() {
 
 	FinnJake_M = Model();
 	FinnJake_M.LoadModel("Models/Finn-Jake.obj");
+
+	Mont_M = Model();
+	Mont_M.LoadModel("Models/montania.fbx");
 
 	Basura1_M = Model();
 	Basura1_M.LoadModel("Models/CuboBasura1.obj");
@@ -2009,6 +2013,14 @@ int main() {
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		FinnJake_M.RenderModel();
 
+		// Montaña
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-253.0f, 6.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(50.0f, 200.0f, 150.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Mont_M.RenderModel();
+
 		// CUBOS DE BASURA
 		//Lado derecho visto de frente de Wall-E		
 		model = glm::mat4(1.0);
@@ -2280,18 +2292,6 @@ int main() {
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Basura3_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-235.0f, 0.0f, 55.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura1_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-225.0f, 0.0f, 75.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura2_M.RenderModel();
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-215.0f, 0.0f, 40.0f));
@@ -2569,12 +2569,6 @@ int main() {
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Basura3_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-235.0f, 0.0f, -55.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura1_M.RenderModel();
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-225.0f, 0.0f, -75.0f));
