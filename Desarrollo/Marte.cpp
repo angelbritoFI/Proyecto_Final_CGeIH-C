@@ -3,10 +3,11 @@
 * Semestre 2021-2
 * Fecha de creación: 12/07/2021
 * Descripción: Archivo principal de la ejecución del Proyecto Final
-* Autores:
+* Autor:
 *	Brito Segura Angel
-*	Hernández Torres Agustín de Jesús
-* 	Huarte Nolasco Mario
+* Colaboradores (hasta versión 1):
+	Hernández Torres Agustín de Jesús
+	Huarte Nolasco Mario
 */
 #define STB_IMAGE_IMPLEMENTATION //para cargar imagen
 
@@ -81,6 +82,7 @@ Model PiernaCD_M;
 //Naves
 Model InterceptorJedi_M;
 Model SpeederBike_M;
+Model Pod_M;
 
 Model Mont_M;
 Model Camino_M;
@@ -531,6 +533,9 @@ int main() {
 	Droide2_M = Model();
 	Droide2_M.LoadModel("Models/droideSW.fbx");
 
+	Pod_M = Model();
+	Pod_M.LoadModel("Models/capsula-escape.fbx");
+
 	R2D2_M = Model();
 	R2D2_M.LoadModel("Models/r2d2.obj");
 
@@ -553,7 +558,7 @@ int main() {
 	Basura3_M.LoadModel("Models/CuboBasura3.obj");
 
 	DeathStar_M = Model();
-	DeathStar_M.LoadModel("Models/DeathStar.obj");
+	DeathStar_M.LoadModel("Models/DeathStar.obj");	
 
 	Luna_M = Model();
 	Luna_M.LoadModel("Models/Luna.obj");
@@ -1295,7 +1300,7 @@ int main() {
 		//Camino
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(35.0f, -1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(3.2f, 1.0f, 3.0f));
+		model = glm::scale(model, glm::vec3(3.2f, 1.0f, 3.5f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Camino_M.RenderModel();
@@ -1479,13 +1484,21 @@ int main() {
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Droide2_M.RenderModel();
 
+		//Cápsula de escape
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(90.0f, 10.0f, 120.0f));
+		model = glm::scale(model, glm::vec3(15.0f, 15.0f, 15.0f));
+		model = glm::rotate(model, 135 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Pod_M.RenderModel();
+
 		//R2-D2
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(70.0f, -1.0f, 40.0f));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		R2D2_M.RenderModel();
+		R2D2_M.RenderModel();		
 
 		//Animación Interceptor Jedi
 		offset += 0.1f * deltaTime; //ángulo de inclinación
@@ -2286,25 +2299,19 @@ int main() {
 		Basura3_M.RenderModel();
 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-205.0f, 0.0f, 55.0f));
+		model = glm::translate(model, glm::vec3(245.0f, 0.0f, 55.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Basura1_M.RenderModel();
 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-195.0f, 0.0f, 75.0f));
+		model = glm::translate(model, glm::vec3(255.0f, 0.0f, 75.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Basura2_M.RenderModel();
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-185.0f, 0.0f, 40.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura3_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-215.0f, 0.0f, 40.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Basura3_M.RenderModel();
