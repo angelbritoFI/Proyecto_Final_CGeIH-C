@@ -1,8 +1,9 @@
 #Link al repositorio
 *.url
 
-#Archivos de WORD
+#Archivos de Office
 *.docx
+*.xlsx
 
 #Librería de audio
 irrKlang-1.6.0/

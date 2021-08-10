@@ -72,6 +72,9 @@ Model Droide1_M;
 Model Droide2_M;
 Model R2D2_M;
 
+Model Curiosity_M;
+Model Perseverance_M;
+
 //Stormtroppers
 Model CuerpoC_M;
 Model BrazoCI_M;
@@ -569,6 +572,12 @@ int main() {
 	Estrellas_M = Model();
 	Estrellas_M.LoadModel("Models/Estrellas.obj");
 
+	Curiosity_M = Model();
+	//Curiosity_M.LoadModel("Models/curiosity.obj");
+
+	Perseverance_M = Model();
+	Perseverance_M.LoadModel("Models/perseverance.fbx");
+
 	//Skybox dia
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/marte-dia_lf.tga");
@@ -1023,7 +1032,6 @@ int main() {
 	float luzYZ2 = -50.0f;
 	float luzYX3 = 50.0f;
 	float luzYZ3 = -50.0f;
-	glm::vec3 posicionLuzY1;
 	glm::vec3 colorLuzY1;
 	glm::vec3 posicionLuzY2;
 	glm::vec3 colorLuzY2;
@@ -2326,6 +2334,14 @@ int main() {
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Mont_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(280.0f, -1.0f, -70.0f));
+		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Perseverance_M.RenderModel();
 
 		// CUBOS DE BASURA
 		//Lado derecho visto de frente de Wall-E		
