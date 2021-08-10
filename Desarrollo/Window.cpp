@@ -24,6 +24,8 @@ Window::Window(GLint windowWidth, GLint windowHeight) {
 	height = windowHeight;
 	prendeLuz = false; //Sin Luz
 	verShow = true; //Con luz
+	mueveYoda = false; //Inicia sin movimiento 
+	mueveR2D2 = false; //Inicia sin movimiento
 	activaAnimacionWallE = false; //Activar animación Wall-E
 	reseteaAnimacionWallE = false; //Resetear animación Wall-E
 	activaAnimacionSpeeder = false; //Activar animación Speeder Bike
@@ -117,13 +119,13 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	if (key == GLFW_KEY_1) {
 		theWindow->camara = 1;
 	}
-
 	if (key == GLFW_KEY_2) {
 		theWindow->camara = 2;
 	}
 	if (key == GLFW_KEY_3) {
 		theWindow->camara = 3;
 	}
+
 	if (key == GLFW_KEY_C && action == GLFW_PRESS && contadorColor % 2 == 0) {
 		theWindow->prendeLuz = true;
 		contadorColor = contadorColor+1;
@@ -140,6 +142,14 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	else if (key == GLFW_KEY_H && action == GLFW_PRESS && contadorShow % 2 != 0) {
 		theWindow->verShow = true;
 		contadorShow++;
+	}
+
+	if (key == GLFW_KEY_Y) {
+		theWindow->mueveYoda = true;
+	}
+
+	if (key == GLFW_KEY_N) {
+		theWindow->mueveR2D2 = true;
 	}
 
 	//Mover brazos del avatar con las flechas

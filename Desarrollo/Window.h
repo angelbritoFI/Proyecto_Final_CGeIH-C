@@ -37,6 +37,20 @@ class Window {
 			return verShow;
 		}
 
+		bool getMueveYoda() {
+			return mueveYoda;
+		}
+		void setMueveYoda(bool m) {
+			mueveYoda = m;
+		}
+
+		bool getMueveR2D2() {
+			return mueveR2D2;
+		}
+		void setMueveR2D2(bool r) {
+			mueveR2D2 = r;
+		}
+
 		//Método publico para cambiar de camara
 		int getCamara() {
 			return camara;
@@ -78,7 +92,7 @@ class Window {
 		GLfloat xChange;
 		GLfloat yChange;
 		int camara=1; //selecciona que camara ver
-		bool prendeLuz, verShow; //Control del show de luces
+		bool prendeLuz, verShow, mueveYoda, mueveR2D2; //Control del show de luces
 		GLfloat movimientoAvatar[1]; //Variable float para el movimiento de Wall-E
 		bool mouseFirstMoved;
 		static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);

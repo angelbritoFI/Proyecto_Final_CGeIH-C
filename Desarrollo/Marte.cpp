@@ -1072,7 +1072,7 @@ int main() {
 	sonido->play2D("media/air.mp3", true); //Reproducir sonido de fondo -Soundtrack-
 
 	//Banderas para efectos de sonido
-	bool reproduceW = true, reproduceW2, reproduceS = true;
+	bool reproduceW = true, reproduceS = true;
 
 	float offsetHeli = 0.03, offsetPos = 0.01f, giroHelice = 0.0f;
 
@@ -1167,6 +1167,18 @@ int main() {
 	bool regresaE = false;
 	bool reproduceD = true;
 	bool reproduceWE = true;
+
+	//Yoda
+	GLfloat rotaY = 0.0f;
+	float posYdroide = 0.0f;
+	GLfloat rotaD = 0.0f;
+	bool reproduceY = true;
+
+	//R2-D2
+	GLfloat rotaR = 0.0f;
+	float posZr = 40.0f;
+	float posYr = -1.0f;
+	bool reproduceR = true;
 
 	//Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose()) {
@@ -1396,8 +1408,7 @@ int main() {
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Avatar_M.RenderModel(); //Cuerpo de Wall-E		
 
-		if (mainWindow.activaAnimacionWallE == true) {
-			reproduceW2 = true;
+		if (mainWindow.activaAnimacionWallE) {
 			if (reproduceW) {
 				sonido->play2D("media/wall-e.mp3", false); //Efecto de sonido
 			}
@@ -1444,7 +1455,7 @@ int main() {
 				}
 			}
 		}
-		else if (mainWindow.reseteaAnimacionWallE == true) {
+		else if (mainWindow.reseteaAnimacionWallE) {
 			reproduceW = true;
 			posXrobot = 0.0f;
 			posZrobot = 0.0f;
@@ -1584,9 +1595,56 @@ int main() {
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Cuca_M.RenderModel();
 
-		colorLuzY1 = glm::vec3(1.0f, 0.27f, 0.0f); //color naranja rojizo
-		colorLuzY2 = glm::vec3(0.0f, 0.0f, 0.0f);
-		colorLuzY3 = glm::vec3(0.0f, 0.0f, 0.0f);
+		if (mainWindow.getMueveYoda()) {
+			if (reproduceY) {
+				sonido->play2D("media/yoda-effects.mp3", false); //Efecto de sonido
+			}
+			reproduceY = false;
+			colorLuzY1 = glm::vec3(0.0f, 0.0f, 0.0f); //apagada			
+			if (rotaY < 90.0f) {
+				rotaY += 0.2f*deltaTime;
+				luzYX2 -= 0.1*deltaTime;
+				luzYX3 += 0.1*deltaTime;
+				posYdroide += 0.2*deltaTime;
+				colorLuzY2 = glm::vec3(0.5f, 1.0f, 1.0f); //cyan
+				colorLuzY3 = glm::vec3(0.5f, 1.0f, 0.5f); //amarillo claro
+			}
+			else if (rotaY < 180.0f) {
+				rotaY += 0.2f*deltaTime;				
+				luzYZ2 += 0.04*deltaTime;
+				luzYZ3 -= 0.04*deltaTime;
+				rotaD -= 0.35f*deltaTime;
+				colorLuzY2 = glm::vec3(0.33f, 0.67f, 1.0f); //cyan claro
+				colorLuzY3 = glm::vec3(0.33f, 1.0f, 0.33f); //verde acuoso
+			}
+			else if (rotaY < 270.0f) {
+				rotaY += 0.2f*deltaTime;
+				luzYX2 += 0.1*deltaTime;
+				luzYX3 -= 0.1*deltaTime;
+				posYdroide -= 0.2*deltaTime;
+				colorLuzY2 = glm::vec3(0.16f, 0.34f, 1.0f); //cyan fuerte
+				colorLuzY3 = glm::vec3(0.16f, 1.0f, 0.16f); //verde claro
+			}
+			else if (rotaY < 360.0f) {
+				rotaY += 0.2f*deltaTime;
+				luzYZ2 -= 0.04*deltaTime;
+				luzYZ3 += 0.04*deltaTime;
+				colorLuzY2 = glm::vec3(0.0f, 0.0f, 1.0f); //azul
+				colorLuzY3 = glm::vec3(0.0f, 1.0f, 0.0f); //verde
+			}
+			else {
+				mainWindow.setMueveYoda(false);
+			}
+		}
+		else {
+			reproduceY = true;
+			colorLuzY1 = glm::vec3(1.0f, 0.27f, 0.0f); //color naranja rojizo
+			colorLuzY2 = glm::vec3(0.0f, 0.0f, 0.0f); //apagada
+			colorLuzY3 = glm::vec3(0.0f, 0.0f, 0.0f); //apagada
+			rotaY = 0.0f;
+			posYdroide = 0.0f;
+			rotaD = 0.0f;
+		}		
 
 		if (!mainWindow.getVerShow()) { //Apagadas
 			colorLuzY1 = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -1605,63 +1663,70 @@ int main() {
 		spotLights[6].SetColor(colorLuzY2);
 
 		spotLights[7].SetPos(posicionLuzY3);
-		spotLights[7].SetColor(colorLuzY2);
+		spotLights[7].SetColor(colorLuzY3);
 
 		//Yoda
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(50.0f, 5.0f, -50.0f));
 		model = glm::scale(model, glm::vec3(400.0f, 400.0f, 400.0f));
+		model = glm::rotate(model, rotaY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Yoda_M.RenderModel();
 
 		//Droide de batalla (atrás)
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(40.0f, 0.0f, -70.0f));
+		model = glm::translate(model, glm::vec3(40.0f, posYdroide, -70.0f));
 		model = glm::scale(model, glm::vec3(25.0f, 25.0f, 25.0f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));		
 		model = glm::rotate(model, 15 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, rotaD * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Droide1_M.RenderModel();
 
 		//Droide Eyegree (atrás)
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(60.0f, 0.0f, -70.0f));
+		model = glm::translate(model, glm::vec3(60.0f, posYdroide, -70.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		model = glm::rotate(model, -15 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotaD * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Droide2_M.RenderModel();
 
 		//Droide de batalla (lado derecho a Yoda)
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(20.0f, 0.0f, -50.0f));
+		model = glm::translate(model, glm::vec3(20.0f, posYdroide, -50.0f));
 		model = glm::scale(model, glm::vec3(25.0f, 25.0f, 25.0f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, rotaD * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Droide1_M.RenderModel();
 
 		//Droide Eyegree (lado izquierdo a Yoda)
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(80.0f, 0.0f, -50.0f));
+		model = glm::translate(model, glm::vec3(80.0f, posYdroide, -50.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotaD * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Droide2_M.RenderModel();
 
 		//Droide de batalla (enfrente)
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(30.0f, 0.0f, -25.0f));
+		model = glm::translate(model, glm::vec3(30.0f, posYdroide, -25.0f));
 		model = glm::scale(model, glm::vec3(25.0f, 25.0f, 25.0f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, 150 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, rotaD * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Droide1_M.RenderModel();
 
 		//Droide Eyegree (enfrente)
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(70.0f, 0.0f, -25.0f));
+		model = glm::translate(model, glm::vec3(70.0f, posYdroide, -25.0f));
 		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		model = glm::rotate(model, 210 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotaD * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Droide2_M.RenderModel();
 
@@ -1673,9 +1738,19 @@ int main() {
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Pod_M.RenderModel();
 
+		if (mainWindow.getMueveR2D2()) {
+			if (reproduceR) {
+				sonido->play2D("media/r2d2_sms.mp3", false); //Efecto de sonido
+			}
+			reproduceR = false;			
+		}
+		else {
+			reproduceR = true;			
+		}
+
 		//R2-D2
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(70.0f, -1.0f, 40.0f));
+		model = glm::translate(model, glm::vec3(70.0f, posYr, posZr));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1796,7 +1871,7 @@ int main() {
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		SpeederBike_M.RenderModel();
 
-		if (mainWindow.activaAnimacionSpeeder == true) {
+		if (mainWindow.activaAnimacionSpeeder) {
 			if (reproduceS) {
 				sonido->play2D("media/star-wars-dogfight.mp3", false); //Efecto de sonido
 			}
@@ -1818,7 +1893,7 @@ int main() {
 				adelanteY = 0;
 			}
 		}
-		else if (mainWindow.reseteaAnimacionSpeeder == true) {
+		else if (mainWindow.reseteaAnimacionSpeeder) {
 			reproduceS = true;
 			posZspeeder = 0.0f;
 			posYspeeder = 0.0f;
