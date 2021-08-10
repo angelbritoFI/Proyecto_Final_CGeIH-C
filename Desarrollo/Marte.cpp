@@ -1033,7 +1033,7 @@ int main() {
 	glm::vec3 colorLuzY3;
 
 	//Luces de Yoda
-	spotLights[5] = SpotLight(0.0f, 0.0f, 0.0f, 
+	spotLights[5] = SpotLight(0.0f, 0.0f, 0.0f, //apagada
 		0.0f, 2.0f, //coeficientes
 		0.0f, 0.0f, 0.0f, //posición dentro del escenario
 		0.0f, -1.0f, 0.0f, //ecuación de segundo grado
@@ -1155,6 +1155,18 @@ int main() {
 	//Eva
 	GLfloat anguloE = 0.0f;
 	float posYeva = 0.0f;
+	float posXeva = 0.0f;
+	float posZeva = 30.0f;
+	GLfloat rotaEX = 0.0f;
+	GLfloat rotaEY = -90.0f;
+	GLfloat rotaEZ = 0.0f;
+	bool iniciaE = true;
+	bool giraE = false;
+	bool enfrenteW = false;
+	bool vueltaEW = false;
+	bool regresaE = false;
+	bool reproduceD = true;
+	bool reproduceWE = true;
 
 	//Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose()) {
@@ -1467,13 +1479,100 @@ int main() {
 		PieI_M.RenderModel();
 
 		anguloE += 0.01f * deltaTime; //ángulo de inclinación
-		posYeva = sin(30 * anguloE * toRadians); //arriba y abajo
+		posYeva = 10.0f + sin(30 * anguloE * toRadians); //arriba y abajo
 
+		// Animación Eva
+		if (iniciaE) {
+			if (rotaEX < 90.0f) {
+				rotaEX += 0.2f*deltaTime;
+			}
+			else {
+				giraE = true;
+			}
+		}
+
+		if (giraE) {
+			iniciaE = false;
+			if (rotaEZ < 90.0f) {
+				rotaEZ += 0.2f*deltaTime;
+				posXeva -= 0.05f*deltaTime;
+			}
+			else {
+				enfrenteW = true;
+			}
+		}
+
+		if (enfrenteW) {
+			giraE = false;
+			posZeva -= 0.05f*deltaTime;
+			if (rotaEX < 180.0f) {
+				rotaEX += 0.2f*deltaTime;
+			}
+			if (posZeva < 11.0f) {
+				if (reproduceWE) {
+					sonido->play2D("media/wall-e-eve.mp3", false); //Efecto de sonido
+				}
+				reproduceWE = false;				
+				if (posZeva < -14.0f) {
+					if (reproduceD) {  //Efectos de sonido
+						sonido->play2D("media/directive.mp3", false); //Efecto de sonido
+					}
+					reproduceD = false;
+					vueltaEW = true;
+				}
+			}					
+		}
+
+		if (vueltaEW) {
+			enfrenteW = false;			
+			if (rotaEX > 90.0f) {
+				rotaEX -= 0.2f*deltaTime;
+				posZeva -= 0.01f*deltaTime;
+			}
+			if (rotaEY > -180.0f) {
+				rotaEY -= 0.2f*deltaTime;	
+				posZeva -= 0.01f*deltaTime;
+			}
+			if (posXeva < 10.0f) {
+				posXeva += 0.05f*deltaTime;
+			}
+			else {
+				regresaE = true;
+			}
+		}
+
+		if (regresaE) {
+			vueltaEW = false;
+			if (rotaEY > -270.0f) {
+				rotaEY -= 0.2f*deltaTime;				
+			}
+			if (posZeva < 30.0f) {
+				posZeva += 0.05f*deltaTime;
+				posXeva += 0.01f*deltaTime;
+			} else if (rotaEY > -360.0f) {
+				rotaEY -= 0.2f*deltaTime;
+				posXeva -= 0.05f*deltaTime;
+			}
+			else { //Regresar a valores iniciales
+				regresaE = false;
+				posXeva = 0.0f;
+				posZeva = 30.0f;
+				rotaEX = 0.0f;
+				rotaEY = -90.0f;
+				rotaEZ = 0.0f;
+				iniciaE = true;
+				reproduceD = true;
+				reproduceWE = true;
+			}
+		}
+		
 		//Eva
 		model = modelaux;
-		model = glm::translate(model, glm::vec3(0.0f, 8.0f + posYeva, 30.0f));
+		model = glm::translate(model, glm::vec3(posXeva, posYeva, posZeva));
 		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotaEY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotaEX * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, rotaEZ * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Eva_M.RenderModel();
 
@@ -1486,9 +1585,13 @@ int main() {
 		Cuca_M.RenderModel();
 
 		colorLuzY1 = glm::vec3(1.0f, 0.27f, 0.0f); //color naranja rojizo
+		colorLuzY2 = glm::vec3(0.0f, 0.0f, 0.0f);
+		colorLuzY3 = glm::vec3(0.0f, 0.0f, 0.0f);
 
-		if (mainWindow.getVerShow() == false) { //Apagadas
+		if (!mainWindow.getVerShow()) { //Apagadas
 			colorLuzY1 = glm::vec3(0.0f, 0.0f, 0.0f);
+			colorLuzY2 = glm::vec3(0.0f, 0.0f, 0.0f);
+			colorLuzY3 = glm::vec3(0.0f, 0.0f, 0.0f);
 		}
 
 		posicionLuzY1 = glm::vec3(luzYX1, 2.0f, luzYZ1); //Luz 1
@@ -1499,10 +1602,10 @@ int main() {
 		spotLights[5].SetColor(colorLuzY1); //Indicar color
 
 		spotLights[6].SetPos(posicionLuzY2);
-		//spotLights[6].SetColor(colorLuzY2);
+		spotLights[6].SetColor(colorLuzY2);
 
 		spotLights[7].SetPos(posicionLuzY3);
-		//spotLights[7].SetColor(colorLuzY2);
+		spotLights[7].SetColor(colorLuzY2);
 
 		//Yoda
 		model = glm::mat4(1.0);
