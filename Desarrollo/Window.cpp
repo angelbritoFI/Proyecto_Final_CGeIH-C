@@ -5,8 +5,9 @@
 * Descripción: Métodos del objeto Window
 * Autores:
 *	Brito Segura Angel
-*	Hernández Torres Agustín de Jesús
-* 	Huarte Nolasco Mario
+* Colaboradores (hasta versión 1):
+	Hernández Torres Agustín de Jesús
+	Huarte Nolasco Mario
 */
 #include "Window.h"
 
@@ -21,7 +22,8 @@ Window::Window() {
 Window::Window(GLint windowWidth, GLint windowHeight) {
 	width = windowWidth;
 	height = windowHeight;
-	cambioColor = false; //Color original
+	prendeLuz = false; //Sin Luz
+	verShow = true; //Con luz
 	activaAnimacionWallE = false; //Activar animación Wall-E
 	reseteaAnimacionWallE = false; //Resetear animación Wall-E
 	activaAnimacionSpeeder = false; //Activar animación Speeder Bike
@@ -103,7 +105,7 @@ GLfloat Window::getYChange() {
 	return theChange;
 }
 
-int contadorColor, contadorAnimacionWallE, contadorResetWallE, contadorAnimacionSpeeder, contadorResetSpeeder;
+int contadorColor, contadorShow, contadorAnimacionWallE, contadorResetWallE, contadorAnimacionSpeeder, contadorResetSpeeder;
 
 void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode) {
 	Window* theWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
@@ -123,12 +125,21 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 		theWindow->camara = 3;
 	}
 	if (key == GLFW_KEY_C && action == GLFW_PRESS && contadorColor % 2 == 0) {
-		theWindow->cambioColor = true;
+		theWindow->prendeLuz = true;
 		contadorColor = contadorColor+1;
 	}
 	else if (key == GLFW_KEY_C && action == GLFW_PRESS && contadorColor % 2 != 0) {
-		theWindow->cambioColor = false;
+		theWindow->prendeLuz = false;
 		contadorColor = contadorColor+1;
+	}
+
+	if (key == GLFW_KEY_H && action == GLFW_PRESS && contadorShow % 2 == 0) {
+		theWindow->verShow = false;
+		contadorShow++;
+	}
+	else if (key == GLFW_KEY_H && action == GLFW_PRESS && contadorShow % 2 != 0) {
+		theWindow->verShow = true;
+		contadorShow++;
 	}
 
 	//Mover brazos del avatar con las flechas
@@ -195,14 +206,12 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 		if (action == GLFW_PRESS)
 		{
 			theWindow->keys[key] = true;
-			printf("se presiono la tecla %d'\n", key);
-			//printf("contador %d \n", contadorColor);
+			printf("se presiono la tecla %d'\n", key);			
 		}
 		else if (action == GLFW_RELEASE)
 		{
 			theWindow->keys[key] = false;
 			printf("se solto la tecla %d'\n", key);
-			//printf("contador %d \n", contadorColor);
 		}
 	}
 }

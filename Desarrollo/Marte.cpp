@@ -958,6 +958,7 @@ int main() {
 	pointLightCount++;
 
 	unsigned int spotLightCount = 0;
+	
 	//linterna (luz ligada a la cámara)
 	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f, //color blanco
 		0.0f, 2.0f,
@@ -966,9 +967,11 @@ int main() {
 		1.0f, 0.0f, 0.0f, //alcance
 		5.0f); //apertura (radio) del cono entre más grande será más grande la circunferencia
 	spotLightCount++;
+	
+	glm::vec3 colorLuzW;
 
-	//Luz de Wall-E
-	spotLights[1] = SpotLight(1.0f, 1.0f, 1.0f, //color blanco
+	//Luz de Wall-E (apagada)
+	spotLights[1] = SpotLight(0.0f, 0.0f, 0.0f, //Sin mostrar
 		1.0f, 1.0f,
 		-1.0f, 8.5f, 0.1f,
 		-0.05f, 0.0f, 0.0f, //ecuación de segundo grado
@@ -976,54 +979,82 @@ int main() {
 		10.0f);
 	spotLightCount++;
 
-	//Luces RGB de Finn y Jake
-	spotLights[2] = SpotLight(1.0f, 0.0f, 0.0f, //color rojo
-		1.0f, 1.0f,
-		-60.0f, 0.0f, 40.0f,
-		0.0f, 1.0f, 0.0f, //ecuación de segundo grado
-		1.0f, 0.0f, 0.0f,
-		20.0f);
-	spotLightCount++;
+	//Variables auxiliares para el show de luces
+	float luzFX1 = -60.0f;
+	float luzFZ1 = 40.0f;
+	float luzFX3 = -70.0f;
+	float luzFZ3 = 50.0f;
+	float luzFX2 = -50.0f;
+	float luzFZ2 = 50.0f;
+	glm::vec3 posicionLuzF1;
+	glm::vec3 colorLuzF1;
+	glm::vec3 posicionLuzF2;
+	glm::vec3 colorLuzF2;
+	glm::vec3 posicionLuzF3;
+	glm::vec3 colorLuzF3;
 
-	spotLights[3] = SpotLight(0.0f, 1.0f, 0.0f, //color verde
-		1.0f, 1.0f, //coeficientes
-		-60.0f, 0.0f, 40.0f, //posición dentro del escenario
-		1.0f, 1.0f, 0.0f, //ecuación de segundo grado
+	//Luces de Finn y Jake (apagadas)
+	spotLights[2] = SpotLight(0.0f, 0.0f, 0.0f, 
+		0.0f, 2.0f, //coeficientes
+		0.0f, 0.0f, 0.0f, //posición dentro del escenario
+		0.0f, -1.0f, 0.0f, //ecuación de segundo grado
 		1.0f, 0.0f, 0.0f, //alcance
-		20.0f); // radio del cono
+		100.0f); //radio del cono
 	spotLightCount++;
 
-	spotLights[4] = SpotLight(0.0f, 0.0f, 1.0f, //color azul
-		1.0f, 1.0f, //coeficientes
-		-60.0f, 0.0f, 40.0f, //posición dentro del escenario
-		-1.0f, 1.0f, 0.0f, //ecuación de segundo grado
+	spotLights[3] = SpotLight(0.0f, 0.0f, 0.0f, 
+		0.0f, 2.0f, //coeficientes
+		0.0f, 0.0f, 0.0f, //posición dentro del escenario
+		0.0f, -1.0f, 0.0f, //ecuación de segundo grado
 		1.0f, 0.0f, 0.0f, //alcance
-		20.0f); // radio del cono
+		100.0f); //radio del cono
 	spotLightCount++;
 
-	//Luces RGB del Stroomtroper
-	spotLights[5] = SpotLight(1.0f, 0.0f, 0.0f, //color rojo
-		1.0f, 1.0f,
-		-60.0f, 0.0f, -40.0f,
-		0.0f, 1.0f, 0.0f, //ecuación de segundo grado
-		1.0f, 0.0f, 0.0f,
-		20.0f);
-	spotLightCount++;
-
-	spotLights[6] = SpotLight(0.0f, 1.0f, 0.0f, //color verde
-		1.0f, 1.0f, //coeficientes
-		-60.0f, 0.0f, -40.0f, //posición dentro del escenario
-		1.0f, 1.0f, 0.0f, //ecuación de segundo grado
+	spotLights[4] = SpotLight(0.0f, 0.0f, 0.0f, 
+		0.0f, 2.0f, //coeficientes
+		0.0f, 0.0f, 0.0f, //posición dentro del escenario
+		0.0f, -1.0f, 0.0f, //ecuación de segundo grado
 		1.0f, 0.0f, 0.0f, //alcance
-		20.0f); // radio del cono
+		100.0f); //radio del cono
 	spotLightCount++;
 
-	spotLights[7] = SpotLight(0.0f, 0.0f, 1.0f, //color azul
-		1.0f, 1.0f, //coeficientes
-		-60.0f, 0.0f, -40.0f, //posición dentro del escenario
-		-1.0f, 1.0f, 0.0f, //ecuación de segundo grado
+	//Variables auxiliares para luces de Yoda
+	float luzYX1 = 50.0f;
+	float luzYZ1 = -50.0f;
+	float luzYX2 = 50.0f;
+	float luzYZ2 = -50.0f;
+	float luzYX3 = 50.0f;
+	float luzYZ3 = -50.0f;
+	glm::vec3 posicionLuzY1;
+	glm::vec3 colorLuzY1;
+	glm::vec3 posicionLuzY2;
+	glm::vec3 colorLuzY2;
+	glm::vec3 posicionLuzY3;
+	glm::vec3 colorLuzY3;
+
+	//Luces de Yoda
+	spotLights[5] = SpotLight(0.0f, 0.0f, 0.0f, 
+		0.0f, 2.0f, //coeficientes
+		0.0f, 0.0f, 0.0f, //posición dentro del escenario
+		0.0f, -1.0f, 0.0f, //ecuación de segundo grado
 		1.0f, 0.0f, 0.0f, //alcance
-		20.0f); // radio del cono
+		100.0f); //radio del cono
+	spotLightCount++;
+
+	spotLights[6] = SpotLight(0.0f, 0.0f, 0.0f, //apagada
+		0.0f, 2.0f, //coeficientes
+		0.0f, 0.0f, 0.0f, //posición dentro del escenario
+		0.0f, -1.0f, 0.0f, //ecuación de segundo grado
+		1.0f, 0.0f, 0.0f, //alcance
+		100.0f); // radio del cono
+	spotLightCount++;
+
+	spotLights[7] = SpotLight(0.0f, 0.0f, 0.0f, //apagada
+		0.0f, 2.0f, //coeficientes
+		0.0f, 0.0f, 0.0f, //posición dentro del escenario
+		0.0f, -1.0f, 0.0f, //ecuación de segundo grado
+		1.0f, 0.0f, 0.0f, //alcance
+		100.0f); // radio del cono
 	spotLightCount++;
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
@@ -1096,6 +1127,7 @@ int main() {
 	bool irse = false;
 	bool reproduceE = true;
 	bool reproduceSW = true;
+
 	//vistas
 	bool flag = true;
 	int giro=0;
@@ -1180,7 +1212,6 @@ int main() {
 			skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
 			shaderList[0].UseShader();
 			shaderList[0].SetPointLights(pointLights, 0);
-			//shaderList[0].SetSpotLights(spotLights, 1)
 		}
 
 		// Proyección de skybox de noche
@@ -1189,7 +1220,6 @@ int main() {
 			skyboxNight.DrawSkybox(camera.calculateViewMatrix(), projection);
 			shaderList[0].UseShader();
 			shaderList[0].SetPointLights(pointLights, pointLightCount);
-			//shaderList[0].SetSpotLights(spotLights, spotLightCount);
 		}
 
 
@@ -1210,10 +1240,10 @@ int main() {
 		//luz ligada a la cámara de tipo flash 
 		glm::vec3 lowerLight = camera.getCameraPosition(); //Se toma la posición de la cámara
 		lowerLight.y -= 0.3f; //se baja para que no apunten al mismo lado
+		
 		//función programada con posición y dirección de esos valores
 		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
-		// spotLights[0].SetPos solo recibe un vector de posición
-
+		
 		//información al shader de fuentes de iluminación
 		shaderList[0].SetDirectionalLight(&mainLight);
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
@@ -1231,43 +1261,72 @@ int main() {
 		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[2]->RenderMesh();
 				
-		//Show de luces RGB mediante teclado (Tecla C enciende y apaga)
-		if (mainWindow.getCambioColor()) {
-			spotLights[1].SetColor(glm::vec3(1.0f, 1.0f, 1.0f)); //Cambiar el color de la luz
+		//Show de luces mediante teclado (Tecla C enciende y apaga)
+		if (mainWindow.getPrendeLuz()) {
+			colorLuzW = glm::vec3(1.0f, 1.0f, 0.0f); //Encender luz
 
-			//spotLights[2].SetPos(glm::vec3(-60.0f, 0.0f, 40.0f));
-			spotLights[2].SetColor(glm::vec3(1.0f, 0.0f, 0.0f)); //Cambiar el color de la luz
-			//spotLights[3].SetPos(glm::vec3(-60.0f, 0.0f, 40.0f));
-			spotLights[3].SetColor(glm::vec3(0.0f, 1.0f, 0.0f)); //Cambiar el color de la luz
-			//spotLights[4].SetPos(glm::vec3(-60.0f, 0.0f, 40.0f));
-			spotLights[4].SetColor(glm::vec3(0.0f, 0.0f, 1.0f)); //Cambiar el color de la luz
+			colorLuzF1 = glm::vec3(1.0f, 0.0f, 1.0f); //color morado
+			colorLuzF2 = glm::vec3(0.0f, 1.0f, 1.0f); //color azul verdoso
+			colorLuzF3 = glm::vec3(1.0f, 0.5f, 1.0f); //color lila
 
-			spotLights[5].SetColor(glm::vec3(1.0f, 0.0f, 0.0f)); //Cambiar el color de la luz
-			spotLights[6].SetColor(glm::vec3(0.0f, 1.0f, 0.0f)); //Cambiar el color de la luz
-			spotLights[7].SetColor(glm::vec3(0.0f, 0.0f, 1.0f)); //Cambiar el color de la luz
-
+			if (luzFZ1 < 80.0f && luzFX1 == -60.0f) {
+				luzFZ1 += 0.1 * deltaTime;				
+				if (luzFZ2 > 35.0f) {
+					luzFZ2 -= 0.1 * deltaTime;
+				}
+				else {
+					luzFX2 += 0.1 * deltaTime;
+				}
+				luzFX3 -= 0.1 * deltaTime;
+				luzFZ3 += 0.1 * deltaTime;
+			}
+			else if (luzFX2 > -60.0f) {
+				luzFZ1 -= 0.11 * deltaTime;
+				if (luzFX1 > -70.0f) {
+					luzFX1 -= 0.1 * deltaTime;
+				}
+				luzFX3 += 0.18 * deltaTime;
+				luzFZ3 -= 0.15 * deltaTime;
+				luzFX2 -= 0.1 * deltaTime;
+			}
+			else { //Valores iniciales
+				luzFX1 = -60.0f;
+				luzFZ1 = 40.0f;
+				luzFX3 = -70.0f;
+				luzFZ3 = 50.0f;
+				luzFX2 = -50.0f;
+				luzFZ2 = 50.0f;
+			}			
 		}
-		else { // No hay cambio de color
-			spotLights[1].SetColor(glm::vec3(0.0f, 0.0f, 0.0f)); //Cambiar el color de la luz
-
-			//spotLights[2].SetPos(glm::vec3(-60.0f, 0.0f, 40.0f)); 
-			spotLights[2].SetColor(glm::vec3(0.0f, 0.0f, 0.0f)); //Cambiar el color de la luz
-			//spotLights[3].SetPos(glm::vec3(-60.0f, 0.0f, 40.0f));
-			spotLights[3].SetColor(glm::vec3(0.0f, 0.0f, 0.0f)); //Cambiar el color de la luz
-			//spotLights[4].SetPos(glm::vec3(-60.0f, 0.0f, 40.0f));
-			spotLights[4].SetColor(glm::vec3(0.0f, 0.0f, 0.0f)); //Cambiar el color de la luz
-
-			spotLights[5].SetColor(glm::vec3(0.0f, 0.0f, 0.0f)); //Cambiar el color de la luz
-			spotLights[6].SetColor(glm::vec3(0.0f, 0.0f, 0.0f)); //Cambiar el color de la luz
-			spotLights[7].SetColor(glm::vec3(0.0f, 0.0f, 0.0f)); //Cambiar el color de la luz
-
+		else { //Apagar luces
+			colorLuzW = glm::vec3(0.0f, 0.0f, 0.0f);
+			colorLuzF1 = glm::vec3(0.0f, 0.0f, 0.0f);
+			colorLuzF2 = glm::vec3(0.0f, 0.0f, 0.0f);
+			colorLuzF3 = glm::vec3(0.0f, 0.0f, 0.0f);
+			//Valores iniciales
+			luzFX1 = -60.0f;
+			luzFZ1 = 40.0f;
+			luzFX3 = -70.0f;
+			luzFZ3 = 50.0f;
+			luzFX2 = -50.0f;
+			luzFZ2 = 50.0f;
 		}
+		spotLights[1].SetColor(colorLuzW);
 
+		posicionLuzF1 = glm::vec3(luzFX1, 4.0f, luzFZ1); //Luz 1
+		posicionLuzF2 = glm::vec3(luzFX2, 4.0f, luzFZ2); //Luz 2
+		posicionLuzF3 = glm::vec3(luzFX3, 4.0f, luzFZ3); //Luz 3
+		
+		spotLights[2].SetPos(posicionLuzF1); //Posicionar Luz
+		spotLights[2].SetColor(colorLuzF1); //Indicar color		
+		spotLights[3].SetPos(posicionLuzF3);
+		spotLights[3].SetColor(colorLuzF3);
+		spotLights[4].SetPos(posicionLuzF2);
+		spotLights[4].SetColor(colorLuzF2);
 		
 		// ------------------------------------------ CARGA DE MODELOS ------------------------------------------
-
 		//------------------SOL--------------
-		//_------------------ANIMACION KEYFRAMES-------------
+		//_------------------ANIMACION KEYFRAMES-------------		
 		animaSol();
 		rotaSol += 0.01 * deltaTime; //Rotación Sol
 		model = glm::mat4(1.0);
@@ -1313,11 +1372,11 @@ int main() {
 		else if (posXrobot <= -65.0f && posXrobot > -66.0f) {
 			if (posZrobot > -20.0f && adelanteZ == 1) {
 				modelaux = model = glm::translate(model, glm::vec3(0.0f + posXrobot, 0.0f, 0.0f + posZrobot));
-				model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); //Rotación de sus engranes
+				model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			}
-			if (posZrobot < 20.0f && adelanteZ == 0 /*&& abajo == 0*/) {
+			if (posZrobot < 20.0f && adelanteZ == 0) {
 				modelaux = model = glm::translate(model, glm::vec3(0.0f + posXrobot, 0.0f, 0.0f + posZrobot));
-				model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); //Rotación de sus engranes
+				model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 			}
 		}
 		
@@ -1425,6 +1484,25 @@ int main() {
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Cuca_M.RenderModel();
+
+		colorLuzY1 = glm::vec3(1.0f, 0.27f, 0.0f); //color naranja rojizo
+
+		if (mainWindow.getVerShow() == false) { //Apagadas
+			colorLuzY1 = glm::vec3(0.0f, 0.0f, 0.0f);
+		}
+
+		posicionLuzY1 = glm::vec3(luzYX1, 2.0f, luzYZ1); //Luz 1
+		posicionLuzY2 = glm::vec3(luzYX2, 2.0f, luzYZ2); //Luz 2
+		posicionLuzY3 = glm::vec3(luzYX3, 2.0f, luzYZ3); //Luz 3
+
+		spotLights[5].SetPos(posicionLuzY1); //Posicionar Luz
+		spotLights[5].SetColor(colorLuzY1); //Indicar color
+
+		spotLights[6].SetPos(posicionLuzY2);
+		//spotLights[6].SetColor(colorLuzY2);
+
+		spotLights[7].SetPos(posicionLuzY3);
+		//spotLights[7].SetColor(colorLuzY2);
 
 		//Yoda
 		model = glm::mat4(1.0);

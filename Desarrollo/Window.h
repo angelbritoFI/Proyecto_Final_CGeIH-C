@@ -6,8 +6,9 @@
 * Descripción: Objeto Window
 * Autores:
 *	Brito Segura Angel
-*	Hernández Torres Agustín de Jesús
-* 	Huarte Nolasco Mario
+* Colaboradores (hasta versión 1):
+	Hernández Torres Agustín de Jesús
+	Huarte Nolasco Mario
 */
 #include <stdio.h>
 #include <glew.h>
@@ -27,16 +28,19 @@ class Window {
 		GLfloat getXChange();
 		GLfloat getYChange();
 
-		//Método público para ver si hay que cambiar de color
-		bool getCambioColor() { 
-			return cambioColor;
+		//Método público para activar show de luces
+		bool getPrendeLuz() {
+			return prendeLuz;
+		}
+
+		bool getVerShow() {
+			return verShow;
 		}
 
 		//Método publico para cambiar de camara
 		int getCamara() {
 			return camara;
 		}
-
 
 		//Métodos públicos para mover al avatar
 		GLfloat getMovAvatarX() {
@@ -74,8 +78,7 @@ class Window {
 		GLfloat xChange;
 		GLfloat yChange;
 		int camara=1; //selecciona que camara ver
-		bool cambioColor; //Control del color
-		//int contadorColor;
+		bool prendeLuz, verShow; //Control del show de luces
 		GLfloat movimientoAvatar[1]; //Variable float para el movimiento de Wall-E
 		bool mouseFirstMoved;
 		static void ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode);
