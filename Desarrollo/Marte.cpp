@@ -1019,8 +1019,6 @@ int main() {
 	spotLightCount++;
 
 	//Variables auxiliares para luces de Yoda
-	float luzYX1 = 50.0f;
-	float luzYZ1 = -50.0f;
 	float luzYX2 = 50.0f;
 	float luzYZ2 = -50.0f;
 	float luzYX3 = 50.0f;
@@ -1035,7 +1033,7 @@ int main() {
 	//Luces de Yoda
 	spotLights[5] = SpotLight(0.0f, 0.0f, 0.0f, //apagada
 		0.0f, 2.0f, //coeficientes
-		0.0f, 0.0f, 0.0f, //posición dentro del escenario
+		50.0f, 0.0f, -50.0f, //posición dentro del escenario
 		0.0f, -1.0f, 0.0f, //ecuación de segundo grado
 		1.0f, 0.0f, 0.0f, //alcance
 		100.0f); //radio del cono
@@ -1175,7 +1173,8 @@ int main() {
 	bool reproduceY = true;
 
 	//R2-D2
-	GLfloat rotaR = 0.0f;
+	GLfloat rotaRY = 90.0f;
+	GLfloat rotaRZ = 0.0f;
 	float posZr = 40.0f;
 	float posYr = -1.0f;
 	bool reproduceR = true;
@@ -1633,7 +1632,7 @@ int main() {
 				colorLuzY3 = glm::vec3(0.0f, 1.0f, 0.0f); //verde
 			}
 			else {
-				mainWindow.setMueveYoda(false);
+				mainWindow.setMueveYoda(false); //Termina animación
 			}
 		}
 		else {
@@ -1652,11 +1651,9 @@ int main() {
 			colorLuzY3 = glm::vec3(0.0f, 0.0f, 0.0f);
 		}
 
-		posicionLuzY1 = glm::vec3(luzYX1, 2.0f, luzYZ1); //Luz 1
 		posicionLuzY2 = glm::vec3(luzYX2, 2.0f, luzYZ2); //Luz 2
 		posicionLuzY3 = glm::vec3(luzYX3, 2.0f, luzYZ3); //Luz 3
 
-		spotLights[5].SetPos(posicionLuzY1); //Posicionar Luz
 		spotLights[5].SetColor(colorLuzY1); //Indicar color
 
 		spotLights[6].SetPos(posicionLuzY2);
@@ -1742,17 +1739,47 @@ int main() {
 			if (reproduceR) {
 				sonido->play2D("media/r2d2_sms.mp3", false); //Efecto de sonido
 			}
-			reproduceR = false;			
+			reproduceR = false;
+
+			if (posYr < 10.0f && rotaRY == 90.0f) {
+				posYr += 0.1f*deltaTime;
+			}
+			else if (rotaRY > -90.0f && posZr == 40.0f) {
+				rotaRY -= 0.3f*deltaTime;
+			}
+			else if (posZr < 80.0f) {
+				posZr += 0.1f*deltaTime;
+			}
+			else if (posYr > -1.0f) {
+				posYr -= 0.1f*deltaTime;
+			}
+			else if (rotaRZ < 5.0f) {
+				rotaRZ += 0.2f*deltaTime;
+			}
+			else if (posZr < 120.0f) {
+				posZr += 0.1f*deltaTime;
+			}
+			else if (rotaRY < 0.0f) {
+				rotaRY += 0.2f*deltaTime;
+			}
+			else {
+				mainWindow.setMueveR2D2(false); //Termina animación
+			}
 		}
 		else {
 			reproduceR = true;			
+			rotaRY = 90.0f;
+			rotaRZ = 0.0f;
+			posZr = 40.0f;
+			posYr = -1.0f;
 		}
 
 		//R2-D2
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(70.0f, posYr, posZr));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotaRY * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotaRZ * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		R2D2_M.RenderModel();		
 
