@@ -77,6 +77,7 @@ Model Perseverance_M;
 Model Rocas_M;
 Model TieDV_M;
 Model TieB_M;
+Model TieD_M;
 
 //Stormtroppers
 Model CuerpoC_M;
@@ -589,6 +590,9 @@ int main() {
 
 	TieB_M = Model();
 	TieB_M.LoadModel("Models/bombardero-tie.fbx");
+
+	TieD_M = Model();
+	TieD_M.LoadModel("Models/defensor-tie.obj");
 
 	//Skybox dia
 	std::vector<std::string> skyboxFaces;
@@ -1924,16 +1928,16 @@ int main() {
 			}
 			reproduceS = false;
 			if (posYspeeder > 0.0f && adelanteY == 0) {
-				posYspeeder -= 0.1 * sin(0.05);
-				posZspeeder -= 0.1 * cos(0.05);
+				posYspeeder -= 0.5 * sin(0.05);
+				posZspeeder -= 0.5 * cos(0.05);
 			}
 			else {
 				adelanteY = 1;
 			}
 
 			if (posYspeeder < 20.0f && adelanteY == 1) {
-				posYspeeder += 0.1 * sin(0.05);
-				posZspeeder += 0.1 * cos(0.05);
+				posYspeeder += 0.5 * sin(0.05);
+				posZspeeder += 0.5 * cos(0.05);
 			}
 			else
 			{
@@ -2370,12 +2374,19 @@ int main() {
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		TieDV_M.RenderModel();
 
+		// Naves TIE
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(180.0f, 10.0f, 110.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-		model = glm::rotate(model, -127 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(200.0f, 0.0f, 180.0f));
+		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+		model = glm::rotate(model, -115 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		TieB_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-70.0f, 0.0f, 250.0f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		TieD_M.RenderModel();
 
 		// CUBOS DE BASURA
 		//Lado derecho visto de frente de Wall-E
