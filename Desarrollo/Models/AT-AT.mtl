@@ -1,0 +1,16 @@
+# Blender MTL File: 'AT-AT.blend'
+# Material Count: 1
+
+newmtl at_at
+Ns 82.706287
+Ka 1.000000 1.000000 1.000000
+Kd 0.184314 0.184314 0.184314
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\A20_normal.png
+map_Kd C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\A20_color.png
+map_Ns C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\A20_roughness.png
+refl C:\\Users\\Drago\\Documents\\Proyectos VisualStudio 2017\\Proyecto Final CGeIH-C\\Desarrollo\\Textures\\A20_metalness.png

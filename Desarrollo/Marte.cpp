@@ -78,6 +78,7 @@ Model Rocas_M;
 Model TieDV_M;
 Model TieB_M;
 Model TieD_M;
+Model AT_M;
 
 //Stormtroppers
 Model CuerpoC_M;
@@ -593,6 +594,9 @@ int main() {
 
 	TieD_M = Model();
 	TieD_M.LoadModel("Models/defensor-tie.obj");
+
+	AT_M = Model();
+	AT_M.LoadModel("Models/AT-AT.obj");
 
 	//Skybox dia
 	std::vector<std::string> skyboxFaces;
@@ -2387,6 +2391,14 @@ int main() {
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		TieD_M.RenderModel();
+
+		// Vehículo terrestre AT-AT
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 150.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		AT_M.RenderModel();
 
 		// CUBOS DE BASURA
 		//Lado derecho visto de frente de Wall-E
