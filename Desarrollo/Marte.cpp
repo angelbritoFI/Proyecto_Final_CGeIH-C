@@ -75,6 +75,7 @@ Model R2D2_M;
 Model Curiosity_M;
 Model Perseverance_M;
 Model Rocas_M;
+Model TieDV_M;
 
 //Stormtroppers
 Model CuerpoC_M;
@@ -581,6 +582,9 @@ int main() {
 
 	Rocas_M = Model();
 	Rocas_M.LoadModel("Models/rocas.fbx");
+
+	TieDV_M = Model();
+	TieDV_M.LoadModel("Models/DarthVader-Tie.fbx");
 
 	//Skybox dia
 	std::vector<std::string> skyboxFaces;
@@ -2333,8 +2337,8 @@ int main() {
 
 		// Montaña
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-253.0f, 6.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(50.0f, 200.0f, 150.0f));
+		model = glm::translate(model, glm::vec3(-253.0f, 27.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(50.0f, 350.0f, 250.0f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Mont_M.RenderModel();
@@ -2353,6 +2357,14 @@ int main() {
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Rocas_M.RenderModel();
+
+		// Nave de Darth Vader
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-180.0f, 10.0f, -110.0f));
+		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+		model = glm::rotate(model, -127 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		TieDV_M.RenderModel();
 
 		// CUBOS DE BASURA
 		//Lado derecho visto de frente de Wall-E
