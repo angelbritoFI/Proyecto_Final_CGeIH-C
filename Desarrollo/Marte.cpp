@@ -578,7 +578,7 @@ int main() {
 	Estrellas_M.LoadModel("Models/Estrellas.obj");
 
 	Curiosity_M = Model();
-	//Curiosity_M.LoadModel("Models/curiosity.obj");
+	Curiosity_M.LoadModel("Models/curiosity.obj");
 
 	Perseverance_M = Model();
 	Perseverance_M.LoadModel("Models/perseverance.fbx");
@@ -2395,10 +2395,18 @@ int main() {
 		// Vehículo terrestre AT-AT
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 150.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, 25 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		AT_M.RenderModel();
+
+		//Curiosity
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 40.0f));		
+		model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Curiosity_M.RenderModel();
 
 		// CUBOS DE BASURA
 		//Lado derecho visto de frente de Wall-E
