@@ -76,6 +76,7 @@ Model Curiosity_M;
 Model Perseverance_M;
 Model Rocas_M;
 Model TieDV_M;
+Model TieB_M;
 
 //Stormtroppers
 Model CuerpoC_M;
@@ -585,6 +586,9 @@ int main() {
 
 	TieDV_M = Model();
 	TieDV_M.LoadModel("Models/DarthVader-Tie.fbx");
+
+	TieB_M = Model();
+	TieB_M.LoadModel("Models/bombardero-tie.fbx");
 
 	//Skybox dia
 	std::vector<std::string> skyboxFaces;
@@ -2365,6 +2369,13 @@ int main() {
 		model = glm::rotate(model, -127 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		TieDV_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(180.0f, 10.0f, 110.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, -127 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		TieB_M.RenderModel();
 
 		// CUBOS DE BASURA
 		//Lado derecho visto de frente de Wall-E
