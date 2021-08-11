@@ -74,6 +74,7 @@ Model R2D2_M;
 
 Model Curiosity_M;
 Model Perseverance_M;
+Model Rocas_M;
 
 //Stormtroppers
 Model CuerpoC_M;
@@ -577,6 +578,9 @@ int main() {
 
 	Perseverance_M = Model();
 	Perseverance_M.LoadModel("Models/perseverance.fbx");
+
+	Rocas_M = Model();
+	Rocas_M.LoadModel("Models/rocas.fbx");
 
 	//Skybox dia
 	std::vector<std::string> skyboxFaces;
@@ -2336,15 +2340,40 @@ int main() {
 		Mont_M.RenderModel();
 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(280.0f, -1.0f, -70.0f));
+		model = glm::translate(model, glm::vec3(250.0f, -1.0f, -70.0f));
 		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, 200 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Perseverance_M.RenderModel();
 
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(214.0f, 0.0f, -80.0f));
+		model = glm::scale(model, glm::vec3(100.0f, 100.0f, 100.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Rocas_M.RenderModel();
+
 		// CUBOS DE BASURA
-		//Lado derecho visto de frente de Wall-E		
+		//Lado derecho visto de frente de Wall-E
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(275.0f, 0.0f, 55.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Basura1_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(285.0f, 0.0f, 75.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Basura2_M.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(265.0f, 0.0f, 40.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Basura3_M.RenderModel();
+
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(215.0f, 0.0f, 55.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
@@ -2615,73 +2644,13 @@ int main() {
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Basura3_M.RenderModel();
 
-		//Lado Izquierdo visto de frente de Wall-E
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(215.0f, 0.0f, -55.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura1_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(225.0f, 0.0f, -75.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura2_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(235.0f, 0.0f, -40.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura3_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(185.0f, 0.0f, -55.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura1_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(195.0f, 0.0f, -75.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura2_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(205.0f, 0.0f, -40.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura3_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(155.0f, 0.0f, -55.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura1_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(165.0f, 0.0f, -75.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura2_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(175.0f, 0.0f, -40.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura3_M.RenderModel();
-
+		//Lado Izquierdo visto de frente de Wall-E				
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(125.0f, 0.0f, -55.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Basura1_M.RenderModel();
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(135.0f, 0.0f, -75.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Basura2_M.RenderModel();
-
+				
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(145.0f, 0.0f, -40.0f));
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
